@@ -1,0 +1,5 @@
+# Nada de dependências ou artefatos de sistema nesta vitrine.
+node_modules/
+.DS_Store
+Thumbs.db
+*.log

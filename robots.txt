@@ -1,0 +1,5 @@
+# Vitrine TEMPORÁRIA — apresentação para o cliente, não conteúdo público.
+# O repositório precisa ser público para o GitHub Pages funcionar em conta
+# gratuita, mas a página não deve ser indexada antes da aprovação da marca.
+User-agent: *
+Disallow: /
