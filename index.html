@@ -233,6 +233,91 @@
     *{animation:none!important;transition:none!important}
     .reveal,.hero__logo,.hero__eyebrow,.hero__title,.hero__sub,.hero__cta,.hero__scroll{opacity:1!important;transform:none!important}
   }
+
+  /* ======================================================================
+     CATÁLOGO — as peças reais
+     ======================================================================
+     Mobile é o alvo principal: a clientela navega no telefone. Por isso o
+     desenho começa em UMA PEÇA POR LARGURA — em duas colunas de 170px a joia
+     vira miniatura, e miniatura não vende alta joalheria.
+
+     A TRANSIÇÃO DE IMAGEM, E O PROBLEMA DO TOQUE
+     Hover não existe no telefone. Trocar a imagem sozinha seria roubar o
+     controle de quem olha; então no toque a troca é por TAP, com pontos
+     mostrando quantas há. No desktop, o hover revela a segunda imagem.
+     ====================================================================== */
+  .catalogo{display:grid;gap:1.5rem;margin-top:3rem}
+  @media (min-width:700px){.catalogo{grid-template-columns:repeat(2,1fr);gap:1.75rem}}
+  @media (min-width:1080px){.catalogo{grid-template-columns:repeat(3,1fr)}}
+
+  .peca{position:relative;border-radius:1rem;overflow:hidden;
+    background:var(--bg-elevated);border:1px solid var(--line);
+    transition:border-color .5s var(--ease),transform .5s var(--ease)}
+  .peca:hover{border-color:var(--gold-dim);transform:translateY(-2px)}
+
+  .peca__midia{position:relative;aspect-ratio:1;background:#000;cursor:pointer;
+    /* O toque troca a imagem; sem isto o navegador tenta rolar a página. */
+    touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+  .peca__midia img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+    opacity:0;transition:opacity .6s var(--ease)}
+  .peca__midia img.is-ativa{opacity:1}
+
+  /* Desktop: o hover revela a SEGUNDA imagem — a que floreia. No telefone
+     esta regra nunca dispara, e o tap assume. */
+  @media (hover:hover){
+    .peca:hover .peca__midia img.is-ativa{opacity:0}
+    .peca:hover .peca__midia img.is-hover{opacity:1}
+  }
+
+  .peca__pontos{position:absolute;left:0;right:0;bottom:.85rem;z-index:2;
+    display:flex;justify-content:center;gap:.35rem;pointer-events:none}
+  .peca__ponto{width:.3rem;height:.3rem;border-radius:50%;
+    background:rgba(244,239,230,.35);transition:background .3s var(--ease),width .3s var(--ease)}
+  .peca__ponto.is-ativo{background:var(--gold-soft);width:.85rem;border-radius:.15rem}
+
+  .peca__selo{position:absolute;top:.85rem;left:.85rem;z-index:2;
+    padding:.3rem .6rem;border-radius:.35rem;font-size:.55rem;letter-spacing:.18em;
+    text-transform:uppercase;backdrop-filter:blur(8px)}
+  .peca__selo--disponivel{background:rgba(196,165,116,.16);color:var(--gold-soft);border:1px solid var(--gold-dim)}
+  .peca__selo--reservada{background:rgba(244,239,230,.1);color:var(--cream-dim);border:1px solid var(--line)}
+  .peca__selo--vendida{background:rgba(0,0,0,.55);color:var(--cream-mute);border:1px solid var(--line)}
+  .peca__selo--sob_encomenda{background:rgba(196,165,116,.1);color:var(--gold-soft);border:1px solid var(--gold-dim)}
+
+  .peca__video{position:absolute;top:.85rem;right:.85rem;z-index:2;
+    width:1.6rem;height:1.6rem;border-radius:50%;display:grid;place-items:center;
+    background:rgba(0,0,0,.55);border:1px solid var(--gold-dim);color:var(--gold-soft);
+    backdrop-filter:blur(8px)}
+  .peca__video svg{width:.7rem;height:.7rem}
+
+  .peca__corpo{padding:1.35rem 1.35rem 1.5rem}
+  .peca__codigo{font-size:.55rem;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--cream-mute);margin-bottom:.45rem}
+  .peca__corpo h3{font-family:var(--font-display);font-size:1.4rem;font-weight:400;
+    line-height:1.25;margin-bottom:.55rem}
+  /* A composição em FRASE, como no estúdio: campo rotulado é para editar,
+     prosa é para ler — e quem olha a vitrine está lendo. */
+  .peca__composicao{font-size:.76rem;line-height:1.6;color:var(--cream-dim);
+    padding-left:.7rem;border-left:1px solid var(--gold-dim);margin-bottom:.9rem}
+  .peca__preco{font-family:var(--font-display);font-size:1.15rem;color:var(--gold-soft);
+    margin-bottom:1.1rem}
+
+  .peca__cta{display:flex;align-items:center;justify-content:center;gap:.5rem;
+    width:100%;padding:.9rem 1rem;border-radius:.5rem;
+    background:var(--gold);color:#0a0a0a;font-size:.62rem;letter-spacing:.22em;
+    text-transform:uppercase;font-weight:600;
+    transition:background .35s var(--ease)}
+  .peca__cta:hover{background:var(--gold-soft)}
+  .peca__cta svg{width:1em;height:1em}
+
+  .catalogo-filtros{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:2rem}
+  .catalogo-filtro{padding:.55rem 1rem;border-radius:2rem;border:1px solid var(--line);
+    font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cream-mute);
+    transition:all .35s var(--ease);cursor:pointer;background:transparent}
+  .catalogo-filtro:hover{color:var(--cream-dim);border-color:var(--gold-dim)}
+  .catalogo-filtro.is-ativo{background:var(--gold);color:#0a0a0a;border-color:var(--gold)}
+
+  .catalogo-vazio{color:var(--cream-mute);font-size:.85rem;padding:2rem 0}
+
 </style>
 </head>
 <body>
@@ -257,6 +342,7 @@
         <li><a href="#essencia">Essência</a></li>
         <li><a href="#experiencia">Experiência</a></li>
         <li><a href="#colecoes">Coleções</a></li>
+        <li><a href="#catalogo">Peças</a></li>
         <li><a href="#contato">Contato</a></li>
       </ul>
     </nav>
@@ -277,6 +363,7 @@
     <a href="#essencia">Essência</a>
     <a href="#experiencia">Experiência</a>
     <a href="#colecoes">Coleções</a>
+    <a href="#catalogo">Peças</a>
     <a href="#contato">Contato</a>
   </div>
 
@@ -359,6 +446,24 @@
               <p>Para noivados, conquistas e datas que merecem ser gravadas no tempo.</p>
               <a class="card__link" href="#contato">Consultar</a></div></article>
           </div>
+        </section>
+
+        <!-- ==================================================================
+             CATÁLOGO — as peças reais do acervo.
+             Vem DEPOIS de "Coleções", não no lugar dela: as duas fazem
+             trabalhos diferentes. Coleções seduz, com três caminhos de desejo;
+             o catálogo mostra a peça, com código, composição e preço.
+             O conteúdo desta página foi aprovado pelo Diego — substituir o que
+             ele aprovou sem perguntar seria decidir no lugar dele.
+
+             A seção se esconde sozinha se `catalogo/catalogo.json` não carregar.
+             ================================================================== -->
+        <section class="section" id="catalogo">
+          <p class="section-label reveal">Acervo</p>
+          <h2 class="section-title reveal reveal-delay-1">Peças <em>disponíveis</em></h2>
+          <p class="section-lead reveal reveal-delay-2">Cada peça é única. Toque na imagem para ver os outros ângulos.</p>
+          <div class="catalogo-filtros reveal reveal-delay-2" id="catalogoFiltros"></div>
+          <div class="catalogo" id="catalogoGrade"></div>
         </section>
 
         <div class="cta-band" id="contato">
@@ -470,6 +575,10 @@
   }, { threshold: 0.16, rootMargin: "0px 0px -8% 0px" });
   document.querySelectorAll(".reveal").forEach(el => io.observe(el));
 
+  /* O catálogo cria cards DEPOIS desta varredura. Sem uma porta para observá-los,
+     eles nasceriam com a opacidade de entrada e nunca apareceriam. */
+  window.observarReveal = (els) => els.forEach(el => io.observe(el));
+
   document.getElementById("year").textContent = new Date().getFullYear();
 })();
 </script>
@@ -565,6 +674,217 @@
     setTimeout(mostrar, 3200);
   }
 })();
+</script>
+
+<script>
+
+  /* ======================================================================
+     CATÁLOGO — consome o artefato exportado pelo Studio
+     ======================================================================
+     O Studio é a fonte única. Esta página lê um DERIVADO (`catalogo.json`),
+     versionado junto e com manifesto de proveniência. Nada aqui edita dado:
+     editar o derivado é como nasce a segunda fonte de verdade.
+
+     Se o arquivo não existir ou a página for aberta em `file://`, a seção
+     simplesmente não aparece — a vitrine continua de pé, sem esqueleto vazio
+     nem erro na cara de quem visita.
+     ====================================================================== */
+  (function(){
+    var secao = document.getElementById('catalogo');
+    if(!secao) return;
+
+    var grade = document.getElementById('catalogoGrade');
+    var filtros = document.getElementById('catalogoFiltros');
+    var pecas = [];
+    var filtroAtual = 'todas';
+
+    /* Composição em FRASE, o mesmo princípio do estúdio: quem lê a vitrine
+       não quer uma ficha técnica, quer a descrição que um vendedor recitaria. */
+    function frasearMateriais(p){
+      if(!p.materiais || !p.materiais.length) return '';
+      var nomes = {ouro:'Ouro',prata:'Prata',platina:'Platina',aco:'Aço',titanio:'Titânio'};
+      var cores = {amarelo:'amarelo',branco:'branco',rose:'rosé',negro:'negro',bicolor:'bicolor',tricolor:'tricolor'};
+      return p.materiais.map(function(m){
+        return [nomes[m.tipo]||m.tipo, m.cor?cores[m.cor]||m.cor:'', m.toque||''].filter(Boolean).join(' ');
+      }).join(' e ');
+    }
+
+    function frasearGemas(p){
+      if(!p.gemas || !p.gemas.length) return '';
+      var ordem = {principal:0,secundaria:1,acento:2};
+      /* `||` NAO serve aqui: ordem['principal'] e 0, e 0 || 9 devolve 9 —
+         o zero e falsy, entao a gema PRINCIPAL ia para o fim da frase.
+         A versao TypeScript do estudio usa `??`, que so recua em null. */
+      var posicao = function(g){ return ordem[g.papel] === undefined ? 9 : ordem[g.papel]; };
+      return p.gemas.slice().sort(function(a,b){return posicao(a)-posicao(b);})
+        .map(function(g){
+          var partes = [];
+          if(g.quantidade && g.quantidade > 1) partes.push(g.quantidade + '×');
+          partes.push(g.tipo);
+          if(g.lapidacao) partes.push(g.lapidacao.split('/')[0].trim().toLowerCase());
+          if(g.quilatesTotais) partes.push(String(g.quilatesTotais).replace('.',',') + 'ct');
+          return partes.join(' ');
+        }).join(' · ');
+    }
+
+    function composicao(p){
+      return [frasearMateriais(p), frasearGemas(p)].filter(Boolean).join(' · ');
+    }
+
+    function preco(p){
+      if(!p.preco || p.preco.modo !== 'valor' || p.preco.valorCentavos == null) return 'Sob consulta';
+      return (p.preco.valorCentavos/100).toLocaleString('pt-BR',{style:'currency',currency:p.preco.moeda||'BRL'});
+    }
+
+    var ROTULO = {disponivel:'Disponível',reservada:'Reservada',vendida:'Vendida',sob_encomenda:'Sob encomenda'};
+
+    /* Todas as imagens da peça, na ordem em que fazem sentido olhar.
+       A GERADA vem em SEGUNDO, não em último: é ela que o hover revela, e é
+       ela que floreia. Hoje nenhuma peça tem uma — então a segunda posição
+       cai naturalmente para a perspectiva, e a transição continua existindo.
+       Sem esse recuo, o recurso seria invisível no catálogo inteiro. */
+    function imagensDe(p){
+      var urls = [];
+      if(p.primaryImageUrl) urls.push(p.primaryImageUrl);
+      if(p.imagemGerada && p.imagemGerada.url) urls.push(p.imagemGerada.url);
+      (p.images||[]).forEach(function(i){ if(urls.indexOf(i.url) === -1) urls.push(i.url); });
+      return urls;
+    }
+
+    function linkWhatsapp(p){
+      /* A peça vai NO TEXTO. Sem isso, a Modernity recebe "olá" e não sabe do
+         que a pessoa está falando — e quem escreveu tem que explicar de novo. */
+      var texto = 'Olá! Vim pela vitrine e gostaria de saber mais sobre a peça '
+        + p.code + ' — ' + p.name + '.';
+      return 'https://wa.me/554197979191?text=' + encodeURIComponent(texto);
+    }
+
+    var ICONE_WA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">'
+      + '<path d="M12 3.25a8.75 8.75 0 0 0-7.53 13.2L3.25 20.75l4.42-1.18A8.75 8.75 0 1 0 12 3.25Z" stroke-linejoin="round" stroke-linecap="round"/>'
+      + '<path d="M9.55 8.6c.16-.38.33-.39.55-.4h.46c.15 0 .35.03.53.42l.62 1.5c.08.19.02.42-.12.55l-.42.4a5.6 5.6 0 0 0 2.1 2.1l.4-.42c.13-.14.36-.2.55-.12l1.5.62c.39.18.42.38.42.53v.46c-.01.22-.02.39-.4.55a4.9 4.9 0 0 1-6.19-6.19Z" stroke-linejoin="round"/></svg>';
+
+    var ICONE_PLAY = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+
+    function montarPeca(p){
+      var imgs = imagensDe(p);
+      var situacao = p.situacao || 'disponivel';
+      var art = document.createElement('article');
+      art.className = 'peca reveal';
+
+      var midia = '<div class="peca__midia" role="button" tabindex="0" aria-label="Ver outros ângulos de ' + p.name + '">';
+      imgs.forEach(function(u,i){
+        midia += '<img src="' + u + '" alt="' + p.name + '"'
+          + (i===0 ? ' class="is-ativa"' : (i===1 ? ' class="is-hover"' : ''))
+          + ' loading="lazy" decoding="async">';
+      });
+      midia += '<span class="peca__selo peca__selo--' + situacao + '">' + (ROTULO[situacao]||situacao) + '</span>';
+      if(p.videoUrl) midia += '<span class="peca__video" title="Tem vídeo do giro">' + ICONE_PLAY + '</span>';
+      if(imgs.length > 1){
+        midia += '<span class="peca__pontos">';
+        imgs.forEach(function(_,i){ midia += '<span class="peca__ponto' + (i===0?' is-ativo':'') + '"></span>'; });
+        midia += '</span>';
+      }
+      midia += '</div>';
+
+      var comp = composicao(p);
+      art.innerHTML = midia
+        + '<div class="peca__corpo">'
+        + '<p class="peca__codigo">' + p.code + '</p>'
+        + '<h3>' + p.name + '</h3>'
+        + (comp ? '<p class="peca__composicao">' + comp + '</p>' : '')
+        + '<p class="peca__preco">' + preco(p) + '</p>'
+        + '<a class="peca__cta" href="' + linkWhatsapp(p) + '" target="_blank" rel="noopener">'
+        + ICONE_WA + 'Consultar peça</a>'
+        + '</div>';
+
+      /* Tap avança a imagem — no telefone é o que substitui o hover.
+         Avançar em vez de alternar deixa TODOS os ângulos alcançáveis, e não
+         só o segundo. */
+      if(imgs.length > 1){
+        var alvo = art.querySelector('.peca__midia');
+        var todas = art.querySelectorAll('.peca__midia img');
+        var pontos = art.querySelectorAll('.peca__ponto');
+        var atual = 0;
+        var avancar = function(){
+          todas[atual].classList.remove('is-ativa');
+          if(pontos[atual]) pontos[atual].classList.remove('is-ativo');
+          atual = (atual + 1) % todas.length;
+          todas[atual].classList.add('is-ativa');
+          if(pontos[atual]) pontos[atual].classList.add('is-ativo');
+        };
+        alvo.addEventListener('click', avancar);
+        alvo.addEventListener('keydown', function(e){
+          if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); avancar(); }
+        });
+      }
+
+      return art;
+    }
+
+    function pintar(){
+      grade.innerHTML = '';
+      var visiveis = pecas.filter(function(p){
+        return filtroAtual === 'todas' || p.category === filtroAtual;
+      });
+      if(!visiveis.length){
+        grade.innerHTML = '<p class="catalogo-vazio">Nenhuma peça nesta categoria.</p>';
+        return;
+      }
+      visiveis.forEach(function(p){ grade.appendChild(montarPeca(p)); });
+      /* O `reveal` da página anima na entrada; peça recém-criada precisa
+         entrar na observação, senão nasce invisível. */
+      if(window.observarReveal) window.observarReveal(grade.querySelectorAll('.reveal'));
+      else grade.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('is-in'); });
+    }
+
+    function montarFiltros(){
+      var categorias = [{id:'todas',rotulo:'Todas'}];
+      var vistas = {};
+      var nomes = {anel:'Anéis',colar:'Colares',brinco:'Brincos',pulseira:'Pulseiras',relogio:'Relógios',outro:'Outras'};
+      pecas.forEach(function(p){
+        if(p.category && !vistas[p.category]){
+          vistas[p.category] = true;
+          categorias.push({id:p.category,rotulo:nomes[p.category]||p.category});
+        }
+      });
+      // Uma categoria só não é filtro, é enfeite.
+      if(categorias.length <= 2){ filtros.style.display = 'none'; return; }
+      categorias.forEach(function(c){
+        var b = document.createElement('button');
+        b.className = 'catalogo-filtro' + (c.id===filtroAtual?' is-ativo':'');
+        b.type = 'button';
+        b.textContent = c.rotulo + ' (' + (c.id==='todas'?pecas.length:pecas.filter(function(p){return p.category===c.id;}).length) + ')';
+        b.addEventListener('click', function(){
+          filtroAtual = c.id;
+          filtros.querySelectorAll('.catalogo-filtro').forEach(function(x){ x.classList.remove('is-ativo'); });
+          b.classList.add('is-ativo');
+          pintar();
+        });
+        filtros.appendChild(b);
+      });
+    }
+
+    fetch('catalogo/catalogo.json', {cache:'no-cache'})
+      .then(function(r){ if(!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+      .then(function(d){
+        pecas = (d && d.pecas) || [];
+        if(!pecas.length){ secao.hidden = true; return; }
+        // As URLs no artefato são relativas à pasta do pacote.
+        pecas.forEach(function(p){
+          if(p.primaryImageUrl) p.primaryImageUrl = 'catalogo/' + p.primaryImageUrl;
+          (p.images||[]).forEach(function(i){ i.url = 'catalogo/' + i.url; });
+          if(p.videoUrl) p.videoUrl = 'catalogo/' + p.videoUrl;
+          if(p.imagemGerada && p.imagemGerada.url) p.imagemGerada.url = 'catalogo/' + p.imagemGerada.url;
+        });
+        montarFiltros();
+        pintar();
+      })
+      .catch(function(e){
+        // Sem catálogo, a seção some. Esqueleto vazio é pior que ausência.
+        console.warn('[catálogo] não carregou:', e.message);
+        secao.hidden = true;
+      });
+  })();
 </script>
 
 </body>

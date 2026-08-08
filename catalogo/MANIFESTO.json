@@ -1,0 +1,31 @@
+{
+  "geradoEm": "2026-08-08T00:04:35.606Z",
+  "destino": "vitrine",
+  "origem": "Modernity Studio · proj-modernity-001",
+  "pecas": 9,
+  "midias": 33,
+  "fatoracao": {
+    "code": true,
+    "name": true,
+    "category": true,
+    "description": true,
+    "fotos": true,
+    "video": true,
+    "imagemGerada": true,
+    "materiais": true,
+    "gemas": true,
+    "medidas": false,
+    "quilates": true,
+    "preco": true,
+    "situacao": true,
+    "prazo": false,
+    "certificacao": false,
+    "estoque": false,
+    "posse": false,
+    "rastreabilidade": false,
+    "observacoes": false
+  },
+  "camposInternosLiberados": [],
+  "midiasCopiadas": 33,
+  "midiasFaltando": []
+}

@@ -80,6 +80,39 @@ desejado, basta restaurar o áudio a partir de `originais/` e o botão volta.
 
 ---
 
+## Catálogo de peças
+
+A seção **Peças** exibe o acervo real da Modernity, lido de
+`catalogo/catalogo.json` — um **artefato derivado**, exportado pelo Modernity
+Studio. O Studio é a fonte única; aqui nada se edita. Ver `catalogo/README.md`.
+
+**Uma peça por largura no telefone.** Em duas colunas de 170px a joia vira
+miniatura, e miniatura não vende alta joalheria.
+
+**A transição de imagem, e o problema do toque.** O pedido era hover no desktop
+com equivalente intuitivo no mobile. Hover não existe no telefone, e trocar a
+imagem sozinha roubaria o controle de quem olha — então o toque **avança** a
+imagem, com pontos mostrando quantas há. Avançar em vez de alternar deixa todos
+os ângulos alcançáveis, não só o segundo.
+
+A segunda imagem deveria ser a **gerada** — a que floreia. Nenhuma das 9 peças
+tem uma ainda, então a segunda posição recua para a perspectiva e a transição
+continua existindo. Sem esse recuo, o recurso seria invisível no catálogo
+inteiro.
+
+**O WhatsApp leva a peça no texto.** Sem isso a Modernity recebe "olá" e não
+sabe do que a pessoa está falando — e quem escreveu tem que explicar de novo.
+
+**A seção some sozinha** se o catálogo não carregar. Sem `catalogo.json`, ou
+aberta em `file://` (onde `fetch` não funciona), a vitrine continua de pé.
+
+> **"Coleções" não foi substituída.** As duas seções fazem trabalhos diferentes:
+> Coleções seduz, com três caminhos de desejo; o catálogo mostra a peça, com
+> código, composição e preço. E Coleções foi aprovada pelo Diego — trocar o que
+> ele aprovou sem perguntar seria decidir no lugar dele.
+
+---
+
 ## Não indexado — de propósito
 
 `robots.txt` e `<meta name="robots" content="noindex, nofollow">`.
