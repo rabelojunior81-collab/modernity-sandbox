@@ -102,13 +102,21 @@
     background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
   /* ===== HEADER ===== */
-  .site-header{position:fixed;top:0;left:0;right:0;z-index:50;height:var(--header-h);
+  /* z acima da lente (120): abrir uma peça NÃO pode apagar a joalheria.
+     Quem está examinando um anel continua vendo de quem é a loja, e continua
+     com o menu e o WhatsApp a um toque. */
+  .site-header{position:fixed;top:0;left:0;right:0;z-index:130;height:var(--header-h);
     display:flex;align-items:center;justify-content:space-between;
     padding:0 clamp(1.25rem,4vw,3rem);
     transition:background .5s var(--ease),backdrop-filter .5s var(--ease),border-color .5s;
     border-bottom:1px solid transparent}
-  .site-header.is-scrolled{background:rgba(10,10,10,.72);backdrop-filter:blur(16px) saturate(1.2);
+  .site-header.is-scrolled,
+  /* com a lente aberta o header precisa de corpo: transparente, ele flutuaria
+     sobre o card e as duas camadas se misturariam */
+  body.tem-lente .site-header{background:rgba(10,10,10,.72);
+    backdrop-filter:blur(16px) saturate(1.2);
     -webkit-backdrop-filter:blur(16px) saturate(1.2);border-bottom-color:var(--line)}
+  body.tem-lente .site-header .nav-desktop a{text-shadow:none}
   .brand{display:flex;align-items:center}
   .brand img{height:32px;width:auto;opacity:.95;
     filter:brightness(0) invert(1) drop-shadow(0 2px 6px rgba(0,0,0,.7))}
@@ -496,16 +504,25 @@
      ícone de play em 8 cards e NENHUMA forma de assistir — indicador sem
      função é mentira, e essa é uma cicatriz que eu já carregava.
      ====================================================================== */
-  .lente{position:fixed;inset:0;z-index:120;display:flex;
+  /* A LENTE É UM CARD, NÃO UMA LAJE.
+     Ela era uma placa retangular de ponta a ponta, canto vivo, grudada embaixo
+     do header — contradizendo a língua de toda a página, onde as superfícies
+     FLUTUAM sobre o fundo, com canto arredondado, vidro e borda de luz.
+     Agora ela flutua também: respiro nas laterais, o fundo desfocado aparecendo
+     em volta, e o card com o mesmo raio dos outros. */
+  .lente{position:fixed;inset:var(--header-h) 0 0 0;z-index:120;display:flex;
+    align-items:center;justify-content:center;padding:.9rem;
     background:rgba(6,6,8,.92);backdrop-filter:blur(18px);
     opacity:0;pointer-events:none;transition:opacity .35s var(--ease)}
   .lente.is-aberta{opacity:1;pointer-events:auto}
-  @media (min-width:760px){.lente{align-items:center;justify-content:center;padding:2rem}}
+  @media (min-width:760px){.lente{padding:2rem}}
+  /* o palco encolhe junto: sem isto, a altura do header vira rolagem no corpo */
+  @media (max-width:759px){.lente__corpo{max-height:42dvh}}
 
   /* `100dvh`, não `100vh`: no telefone a barra do navegador aparece e some, e
      `vh` mede a tela SEM ela — o rodapé nasceria fora do alcance. */
   .lente__caixa{position:relative;display:flex;flex-direction:column;
-    width:100%;height:100dvh;overflow:hidden;
+    width:100%;height:auto;max-height:100%;overflow:hidden;border-radius:1.25rem;
     background:
       var(--brilho-vidro),
       radial-gradient(90% 50% at 50% 0%, rgba(196,165,116,.10), transparent 60%),
@@ -515,7 +532,7 @@
     border:1px solid var(--luz-lado);
     box-shadow:inset 0 1px 0 var(--luz-topo)}
   @media (min-width:760px){
-    .lente__caixa{width:auto;max-width:58rem;height:auto;max-height:88vh;
+    .lente__caixa{width:auto;max-width:58rem;max-height:88vh;
       border-radius:1.25rem;border-color:var(--gold-dim);
       box-shadow:var(--sombra-3), 0 0 0 1px rgba(196,165,116,.12),
                  inset 0 1px 0 rgba(212,188,148,.22);
@@ -548,10 +565,11 @@
      FRAÇÃO da altura, o corpo rola dentro de si, e a ação nunca sai da tela. */
   .lente__palco{position:relative;background:#05060a;flex-shrink:0}
   @media (max-width:759px){
-    /* O palco CRESCE para ocupar a sobra. Peça de texto curto deixava um
-       buraco entre a ficha e o preço — espaço vazio não é respiro, é
-       desleixo. Quem manda no tamanho da foto é o que sobrou da tela. */
-    .lente__palco{flex:1 1 auto;min-height:15rem}
+    /* Proporção fixa de novo. `flex:1` fazia sentido quando o card era uma
+       laje que TINHA de preencher a tela inteira — agora o card se ajusta ao
+       conteúdo, então não existe sobra para a foto absorver, e a proporção
+       quadrada é a mesma dos tiles do acervo. Coerência vale mais aqui. */
+    .lente__palco{aspect-ratio:1;width:100%}
   }
   @media (min-width:760px){.lente__palco{width:28rem;align-self:stretch}}
   .lente__palco img,.lente__palco video{position:absolute;inset:0;
@@ -602,20 +620,34 @@
      `sticky` em vez de fixo: no desktop ele simplesmente descansa no fim do
      conteúdo; no telefone ele gruda na base enquanto a ficha rola por baixo.
      O degradê acima avisa que ainda há texto — corte seco parece fim. */
+  /* O RODAPÉ SANGRA ATÉ AS BORDAS.
+     Ele é filho do corpo, que tem padding lateral — então o fundo dele parava
+     antes das laterais e o resultado era uma PLACA escura flutuando no meio do
+     card, com aresta visível dos dois lados. Fundo de rodapé tem que ir de
+     ponta a ponta, senão não lê como rodapé: lê como caixa perdida. */
   .lente__acao{position:sticky;bottom:0;margin-top:1rem;
-    padding:1rem 0 1.25rem;
+    margin-inline:-1.25rem;border-radius:0 0 1.25rem 1.25rem;
+    /* atalho `padding` DEPOIS de `padding-inline` zeraria a lateral: o valor
+       lateral mora aqui dentro, e não numa linha própria que a ordem apaga */
+    padding:1rem 1.25rem 1.25rem;
     /* SOMBRA, NÃO OUTRA LÂMINA. Empilhar vidro sobre vidro deixou um retângulo
        mais CLARO no rodapé da lente — parecia painel fora do lugar. O rodapé
        só precisa esconder o texto que passa por baixo dele, e sombra faz isso
        sem fingir ser uma superfície nova. */
-    background:linear-gradient(to top,rgba(14,17,22,.96) 62%,rgba(14,17,22,.82))}
+    /* OPACO, não translúcido. Com .82 no topo, a ficha que rolava por baixo
+       aparecia ATRAVÉS do rodapé — "Situação · Disponível" atropelado por
+       "Sob consulta". Rodapé fixo cuja função é esconder o que passa embaixo
+       não pode ser semitransparente. O degradê do `::before` é quem faz a
+       passagem suave, e ele já existe para isso. */
+    background:#0e1116}
   /* No desktop o corpo não rola: nada passa por baixo, então o rodapé não
      precisa de fundo nenhum. Fundo sem função é ruído. */
-  @media (min-width:760px){.lente__acao{margin-top:auto;background:none}
+  @media (min-width:760px){.lente__acao{margin-top:auto;background:none;
+      margin-inline:-2.25rem;padding:1rem 2.25rem 2.25rem}
     .lente__acao::before{display:none}}
   .lente__acao::before{content:'';position:absolute;left:0;right:0;bottom:100%;
-    height:1.75rem;pointer-events:none;
-    background:linear-gradient(to top,rgba(14,17,22,.9),transparent)}
+    height:2.5rem;pointer-events:none;
+    background:linear-gradient(to top,#0e1116,rgba(14,17,22,.72),transparent)}
   .lente__preco{font-family:var(--font-display);font-size:1.35rem;color:var(--gold-soft);
     margin-bottom:.75rem}
   @media (min-width:760px){.lente__preco{font-size:1.5rem}}
@@ -1328,6 +1360,7 @@
       /* Trava a rolagem do fundo: rolar a página por baixo de um card aberto
          desorienta — no telefone é o defeito mais comum de modal. */
       document.body.style.overflow = 'hidden';
+      document.body.classList.add('tem-lente');
       lente.querySelector('.lente__fechar').focus();
     }
 
@@ -1336,6 +1369,7 @@
       var v = lente.querySelector('.lente__palco video');
       if(v) v.pause();
       lente.classList.remove('is-aberta');
+      document.body.classList.remove('tem-lente');
       document.body.style.overflow = '';
     }
   })();
