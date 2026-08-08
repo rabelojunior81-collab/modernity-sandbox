@@ -32,15 +32,28 @@
 <title>Modernity — Joalheria & Relojoaria</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --bg:#0a0a0a; --bg-elevated:#111; --bg-soft:#161616;
+    /* O preto era CHAPADO: #0a0a0a puro, sem temperatura, tudo num plano só.
+       Agora a base tem um azul frio quase imperceptível — o mesmo da água do
+       vídeo — e as superfícies elevadas puxam o quente do ouro. É o que separa
+       um plano do outro sem precisar de linha. */
+    --bg:#07090c; --bg-elevated:#101318; --bg-soft:#151a20;
+    --vidro:rgba(20,24,30,.62); --vidro-forte:rgba(16,19,24,.86);
+    /* borda de luz: clara em cima, some embaixo — é assim que a luz cai */
+    --luz-topo:rgba(244,239,230,.16); --luz-lado:rgba(244,239,230,.07);
+    --sombra-1:0 2px 8px rgba(0,0,0,.4);
+    --sombra-2:0 18px 45px rgba(0,0,0,.5);
+    --sombra-3:0 40px 110px rgba(0,0,0,.62);
     --cream:#f4efe6; --cream-dim:rgba(244,239,230,.72); --cream-mute:rgba(244,239,230,.45);
     --gold:#c4a574; --gold-soft:#d4bc94; --gold-dim:rgba(196,165,116,.35);
     --line:rgba(244,239,230,.12);
     --font-display:"Cormorant Garamond",Georgia,serif;
-    --font-ui:"Montserrat",system-ui,sans-serif;
+    /* A Jost é geométrica, herdeira da Futura — sustenta os versaletes muito
+       espaçados que esta página usa em toda parte, onde a Montserrat fechava
+       demais o desenho. A Cormorant fica: é a voz da marca. */
+    --font-ui:"Jost",system-ui,sans-serif;
     --ease:cubic-bezier(.22,1,.36,1);
     --header-h:4.5rem; --safe-b:env(safe-area-inset-bottom,0px);
   }
@@ -141,10 +154,30 @@
 
   /* ===== CONTEÚDO ===== */
   .content{position:relative;z-index:2}
-  .panel{background:var(--bg);border-radius:1.75rem 1.75rem 0 0;
-    box-shadow:0 -30px 80px rgba(0,0,0,.45);position:relative}
+  /* O PAINEL DEIXA DE SER UMA PLACA OPACA.
+     Era `background:var(--bg)` sólido — e era ele que apagava o vídeo do herói
+     da segunda seção em diante, além de deixar a página inteira num plano só.
+     Agora são camadas: dois halos (um quente de ouro, um frio de água) sobre
+     uma base translúcida. O vídeo continua vivo por baixo, como textura, sem
+     disputar com o texto. */
+  .panel{border-radius:1.75rem 1.75rem 0 0;position:relative;
+    background:
+      radial-gradient(120% 55% at 12% 0%, rgba(196,165,116,.13), transparent 62%),
+      radial-gradient(100% 60% at 92% 20%, rgba(96,140,150,.10), transparent 58%),
+      radial-gradient(90% 45% at 50% 100%, rgba(196,165,116,.07), transparent 65%),
+      /* A OPACIDADE ABRE NO TOPO E FECHA EMBAIXO.
+         Onde o painel encosta no herói o vídeo ainda aparece (88%) e a costura
+         entre as duas partes some; conforme desce, fecha em 97% — porque lá
+         embaixo o texto é corrido e movimento atrás de parágrafo cansa. */
+      linear-gradient(to bottom, rgba(7,9,12,.88) 0%, rgba(7,9,12,.93) 30%, rgba(7,9,12,.97) 100%);
+    /* SEM `backdrop-filter` aqui, de propósito. O painel tem milhares de px de
+       altura e está a 88-97% de opacidade: o desfoque não produz efeito
+       visível e cobra GPU em cada quadro de rolagem. Medi 143 vs 140 fps —
+       empate, mas em GPU de desktop, o que não diz nada sobre telefone. O
+       vidro fica onde ele APARECE: cards, filtros, pilares e a lente. */
+    box-shadow:0 -30px 90px rgba(0,0,0,.6), inset 0 1px 0 var(--luz-topo)}
   .panel::before{content:"";position:absolute;top:.7rem;left:50%;transform:translateX(-50%);
-    width:42px;height:3px;border-radius:999px;background:var(--line)}
+    width:42px;height:3px;border-radius:999px;background:var(--luz-topo)}
   .section{padding:clamp(4.5rem,10vw,8rem) clamp(1.35rem,5vw,5rem);max-width:1200px;margin:0 auto}
   .section-label{display:inline-flex;align-items:center;gap:.85rem;font-size:.62rem;
     letter-spacing:.36em;text-transform:uppercase;color:var(--gold);margin-bottom:1.25rem;font-weight:500}
@@ -154,16 +187,24 @@
   .section-title em{font-style:italic;color:var(--gold-soft)}
   .section-lead{margin-top:1.25rem;max-width:36rem;color:var(--cream-dim);font-size:.95rem}
 
-  .marquee{border-block:1px solid var(--line);background:var(--bg-elevated);overflow:hidden;padding:1rem 0}
+  .marquee{border-block:1px solid var(--luz-lado);overflow:hidden;padding:1rem 0;
+    background:var(--vidro);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
   .marquee__track{display:flex;gap:3rem;width:max-content;animation:marquee 32s linear infinite;
     font-size:.62rem;letter-spacing:.38em;text-transform:uppercase;color:var(--cream-mute)}
   .marquee__track span{white-space:nowrap}
   .marquee__track b{color:var(--gold);font-weight:500}
 
-  .pillars{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);margin-top:3.5rem}
+  /* Os pilares eram uma TABELA: fundo opaco e fio de 1px separando células.
+     Viram três lâminas de vidro sobre o mesmo fundo vivo — a separação passa a
+     ser a borda de luz, não o traço. */
+  .pillars{display:grid;gap:1px;background:var(--luz-lado);
+    border:1px solid var(--luz-lado);border-radius:1rem;overflow:hidden;margin-top:3.5rem;
+    box-shadow:var(--sombra-2), inset 0 1px 0 var(--luz-topo)}
   @media (min-width:768px){.pillars{grid-template-columns:repeat(3,1fr)}}
-  .pillar{background:var(--bg);padding:clamp(1.75rem,4vw,2.5rem);transition:background .4s}
-  .pillar:hover{background:var(--bg-soft)}
+  .pillar{background:var(--vidro);backdrop-filter:blur(18px) saturate(1.2);
+    -webkit-backdrop-filter:blur(18px) saturate(1.2);
+    padding:clamp(1.75rem,4vw,2.5rem);transition:background .4s var(--ease)}
+  .pillar:hover{background:var(--vidro-forte)}
   .pillar__num{font-family:var(--font-display);font-size:1.5rem;color:var(--gold);margin-bottom:1.25rem}
   .pillar h3{font-family:var(--font-display);font-size:1.55rem;font-weight:400;margin-bottom:.75rem}
   .pillar p{color:var(--cream-dim);font-size:.88rem;line-height:1.7}
@@ -181,7 +222,11 @@
   .cards{display:grid;gap:1.25rem;margin-top:3rem}
   @media (min-width:700px){.cards{grid-template-columns:repeat(3,1fr);gap:1.5rem}}
   .card{position:relative;border-radius:1rem;overflow:hidden;min-height:340px;
-    background:var(--bg-soft);border:1px solid var(--line);isolation:isolate}
+    background:var(--bg-soft);border:1px solid var(--luz-lado);isolation:isolate;
+    box-shadow:var(--sombra-2), inset 0 1px 0 var(--luz-topo);
+    transition:box-shadow .5s var(--ease),transform .5s var(--ease),border-color .5s var(--ease)}
+  .card:hover{transform:translateY(-4px);border-color:var(--gold-dim);
+    box-shadow:var(--sombra-3), inset 0 1px 0 rgba(212,188,148,.28)}
   .card__bg{position:absolute;inset:0;z-index:-2;
     background:radial-gradient(circle at 30% 20%,rgba(196,165,116,.18),transparent 45%),
     linear-gradient(160deg,#1a1a1a,#0d0d0d 60%,#151210)}
@@ -246,27 +291,54 @@
      controle de quem olha; então no toque a troca é por TAP, com pontos
      mostrando quantas há. No desktop, o hover revela a segunda imagem.
      ====================================================================== */
-  .catalogo{display:grid;gap:1.5rem;margin-top:3rem}
+  /* `gap` menor no telefone e `scroll-margin-top` para o header fixo não comer
+     o topo do card. O que puxa a rolagem adiante é ESPIAR o próximo — card
+     ocupando a tela inteira encerra o assunto a cada peça. */
+  .catalogo{display:grid;gap:1.15rem;margin-top:2.25rem}
+  .peca{scroll-margin-top:5rem}
+  @media (min-width:700px){.catalogo{margin-top:3rem}}
   @media (min-width:700px){.catalogo{grid-template-columns:repeat(2,1fr);gap:1.75rem}}
   @media (min-width:1080px){.catalogo{grid-template-columns:repeat(3,1fr)}}
 
+  /* A grade estica todos os cards à mesma altura, mas o CONTEÚDO não era
+     empurrado para baixo: quando o nome quebrava em duas linhas, tudo descia e
+     o botão de uma peça ficava 20px acima do da vizinha, na mesma fileira.
+     Medido antes de consertar: 546 · 546 · 546 · 526 · 526 · 546 …
+     Coluna flex + `margin-top:auto` no preço ancora o CTA para qualquer texto. */
   .peca{position:relative;border-radius:1rem;overflow:hidden;
-    background:var(--bg-elevated);border:1px solid var(--line);
-    transition:border-color .5s var(--ease),transform .5s var(--ease)}
-  .peca:hover{border-color:var(--gold-dim);transform:translateY(-2px)}
+    display:flex;flex-direction:column;height:100%;
+    background:var(--vidro);
+    backdrop-filter:blur(20px) saturate(1.25);
+    -webkit-backdrop-filter:blur(20px) saturate(1.25);
+    border:1px solid var(--luz-lado);
+    box-shadow:var(--sombra-2), inset 0 1px 0 var(--luz-topo);
+    transition:border-color .5s var(--ease),transform .5s var(--ease),
+               box-shadow .5s var(--ease),background .5s var(--ease)}
+  /* O relevo é a BORDA DE LUZ no topo, não um contorno uniforme: a luz vem de
+     cima, então a aresta superior acende e as laterais quase somem. Contorno
+     igual dos quatro lados é adesivo, não relevo. */
+  .peca:hover{border-color:var(--gold-dim);transform:translateY(-4px);
+    background:var(--vidro-forte);
+    box-shadow:var(--sombra-3), inset 0 1px 0 rgba(212,188,148,.3)}
 
-  .peca__midia{position:relative;aspect-ratio:1;background:#000;cursor:pointer;
+  /* Piso opaco: a foto da joia não pode ter o vídeo de fundo atravessando. */
+  .peca__midia{position:relative;aspect-ratio:1;background:#05060a;cursor:pointer;
     /* O toque troca a imagem; sem isto o navegador tenta rolar a página. */
     touch-action:manipulation;-webkit-tap-highlight-color:transparent}
   .peca__midia img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-    opacity:0;transition:opacity .6s var(--ease)}
+    opacity:0;transition:opacity .6s var(--ease),transform .9s var(--ease)}
   .peca__midia img.is-ativa{opacity:1}
 
-  /* Desktop: o hover revela a SEGUNDA imagem — a que floreia. No telefone
-     esta regra nunca dispara, e o tap assume. */
+  /* HOVER E CLIQUE PARARAM DE BRIGAR — pela raiz, não por override.
+     Antes, o clique no tile AVANÇAVA a imagem e o hover FORÇAVA a segunda. No
+     desktop o cursor está sempre sobre o card na hora de clicar: o estado
+     mudava e a tela não. Quem clicava via um card que não respondia — e o meu
+     teste, que lia estado em vez de olhar a tela, deu "funcionando".
+     Agora o clique ABRE A LENTE; o tile não guarda mais estado nenhum. Sem
+     estado para disputar, o hover pode voltar a florear em paz. */
   @media (hover:hover){
     .peca:hover .peca__midia img.is-ativa{opacity:0}
-    .peca:hover .peca__midia img.is-hover{opacity:1}
+    .peca:hover .peca__midia img.is-hover{opacity:1;transform:scale(1.04)}
   }
 
   .peca__pontos{position:absolute;left:0;right:0;bottom:.85rem;z-index:2;
@@ -289,20 +361,33 @@
     backdrop-filter:blur(8px)}
   .peca__video svg{width:.7rem;height:.7rem}
 
-  .peca__corpo{padding:1.35rem 1.35rem 1.5rem}
+  /* Uma dica de que o card ABRE. Só no desktop: no toque, o dedo descobre. */
+  .peca__abrir{position:absolute;inset:auto 0 0 0;z-index:2;
+    padding:2.5rem .9rem .9rem;text-align:center;pointer-events:none;
+    font-size:.55rem;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--cream-dim);opacity:0;transition:opacity .4s var(--ease);
+    background:linear-gradient(to top,rgba(10,10,10,.85),transparent)}
+  @media (hover:hover){.peca:hover .peca__abrir{opacity:1}}
+
+  .peca__corpo{padding:1.1rem 1.1rem 1.15rem;
+    display:flex;flex-direction:column;flex:1}
+  @media (min-width:700px){.peca__corpo{padding:1.35rem 1.35rem 1.5rem}}
   .peca__codigo{font-size:.55rem;letter-spacing:.24em;text-transform:uppercase;
     color:var(--cream-mute);margin-bottom:.45rem}
-  .peca__corpo h3{font-family:var(--font-display);font-size:1.4rem;font-weight:400;
-    line-height:1.25;margin-bottom:.55rem}
+  .peca__corpo h3{font-family:var(--font-display);font-size:1.25rem;font-weight:400;
+    line-height:1.25;margin-bottom:.45rem}
+  @media (min-width:700px){.peca__corpo h3{font-size:1.4rem;margin-bottom:.55rem}}
   /* A composição em FRASE, como no estúdio: campo rotulado é para editar,
      prosa é para ler — e quem olha a vitrine está lendo. */
-  .peca__composicao{font-size:.76rem;line-height:1.6;color:var(--cream-dim);
-    padding-left:.7rem;border-left:1px solid var(--gold-dim);margin-bottom:.9rem}
+  .peca__composicao{font-size:.74rem;line-height:1.55;color:var(--cream-dim);
+    padding-left:.7rem;border-left:1px solid var(--gold-dim);margin-bottom:.7rem}
+  @media (min-width:700px){.peca__composicao{font-size:.76rem;margin-bottom:.9rem}}
   .peca__preco{font-family:var(--font-display);font-size:1.15rem;color:var(--gold-soft);
-    margin-bottom:1.1rem}
+    margin-top:auto;padding-top:.4rem;margin-bottom:.8rem}
+  @media (min-width:700px){.peca__preco{margin-bottom:1.1rem}}
 
   .peca__cta{display:flex;align-items:center;justify-content:center;gap:.5rem;
-    width:100%;padding:.9rem 1rem;border-radius:.5rem;
+    width:100%;padding:.8rem 1rem;border-radius:.5rem;
     background:var(--gold);color:#0a0a0a;font-size:.62rem;letter-spacing:.22em;
     text-transform:uppercase;font-weight:600;
     transition:background .35s var(--ease)}
@@ -310,13 +395,157 @@
   .peca__cta svg{width:1em;height:1em}
 
   .catalogo-filtros{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:2rem}
-  .catalogo-filtro{padding:.55rem 1rem;border-radius:2rem;border:1px solid var(--line);
+  .catalogo-filtro{padding:.55rem 1.05rem;border-radius:2rem;
+    border:1px solid var(--luz-lado);
     font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--cream-mute);
-    transition:all .35s var(--ease);cursor:pointer;background:transparent}
-  .catalogo-filtro:hover{color:var(--cream-dim);border-color:var(--gold-dim)}
-  .catalogo-filtro.is-ativo{background:var(--gold);color:#0a0a0a;border-color:var(--gold)}
+    transition:all .35s var(--ease);cursor:pointer;
+    background:var(--vidro);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    box-shadow:var(--sombra-1), inset 0 1px 0 var(--luz-topo)}
+  .catalogo-filtro:hover{color:var(--cream);border-color:var(--gold-dim);
+    background:var(--vidro-forte)}
+  .catalogo-filtro.is-ativo{background:var(--gold);color:#07090c;border-color:var(--gold);
+    box-shadow:0 6px 20px rgba(196,165,116,.28), inset 0 1px 0 rgba(255,255,255,.35)}
 
   .catalogo-vazio{color:var(--cream-mute);font-size:.85rem;padding:2rem 0}
+
+  /* ======================================================================
+     BARRA DE ROLAGEM
+     ======================================================================
+     Era a nativa: 15px, cinza, crua, numa página de alta joalheria. Detalhe
+     pequeno que denuncia desleixo em cada centímetro de rolagem.
+     ====================================================================== */
+  html{scrollbar-width:thin;scrollbar-color:rgba(196,165,116,.32) transparent}
+  ::-webkit-scrollbar{width:9px;height:9px}
+  ::-webkit-scrollbar-track{background:transparent}
+  ::-webkit-scrollbar-thumb{background:rgba(196,165,116,.28);border-radius:99px;
+    border:2px solid transparent;background-clip:content-box}
+  ::-webkit-scrollbar-thumb:hover{background:rgba(196,165,116,.5);background-clip:content-box}
+
+  /* ======================================================================
+     A LENTE — o card inteiro da peça
+     ======================================================================
+     O tile pequeno atrai e ABRE. Examinar acontece aqui: os ângulos, o giro em
+     vídeo, a composição, a ficha e o preço, com a ação ao alcance do polegar.
+
+     É também onde a promessa do selo de vídeo se cumpre. Eu tinha posto um
+     ícone de play em 8 cards e NENHUMA forma de assistir — indicador sem
+     função é mentira, e essa é uma cicatriz que eu já carregava.
+     ====================================================================== */
+  .lente{position:fixed;inset:0;z-index:120;display:flex;
+    background:rgba(6,6,8,.92);backdrop-filter:blur(18px);
+    opacity:0;pointer-events:none;transition:opacity .35s var(--ease)}
+  .lente.is-aberta{opacity:1;pointer-events:auto}
+  @media (min-width:760px){.lente{align-items:center;justify-content:center;padding:2rem}}
+
+  /* `100dvh`, não `100vh`: no telefone a barra do navegador aparece e some, e
+     `vh` mede a tela SEM ela — o rodapé nasceria fora do alcance. */
+  .lente__caixa{position:relative;display:flex;flex-direction:column;
+    width:100%;height:100dvh;overflow:hidden;
+    background:
+      radial-gradient(90% 50% at 50% 0%, rgba(196,165,116,.08), transparent 60%),
+      var(--vidro-forte);
+    backdrop-filter:blur(30px) saturate(1.3);
+    -webkit-backdrop-filter:blur(30px) saturate(1.3);
+    border:1px solid var(--luz-lado);
+    box-shadow:inset 0 1px 0 var(--luz-topo)}
+  @media (min-width:760px){
+    .lente__caixa{width:auto;max-width:58rem;height:auto;max-height:88vh;
+      border-radius:1.25rem;border-color:var(--gold-dim);
+      box-shadow:var(--sombra-3), 0 0 0 1px rgba(196,165,116,.12),
+                 inset 0 1px 0 rgba(212,188,148,.22);
+      flex-direction:row}
+  }
+
+  .lente__fechar{position:absolute;top:.9rem;right:.9rem;z-index:5;
+    width:2.4rem;height:2.4rem;border-radius:50%;border:1px solid var(--line);
+    display:grid;place-items:center;background:rgba(10,10,10,.7);
+    backdrop-filter:blur(10px);color:var(--cream);cursor:pointer}
+  .lente__fechar:hover{border-color:var(--gold-dim);color:var(--gold-soft)}
+
+  /* FOCO COM A VOZ DA CASA.
+     Ao abrir a lente eu mando o foco para o ✕ — para quem navega por teclado
+     não ficar perdido atrás do card. Mas o contorno padrão do navegador
+     gritava um anel amarelo no meio do vidro. `:focus-visible` mostra o anel
+     só para quem chegou pelo teclado; o clique de mouse não acende nada. */
+  .lente__fechar:focus{outline:none}
+  .lente__fechar:focus-visible,
+  .lente__seta:focus-visible,
+  .lente__tira:focus-visible,
+  .peca:focus-visible,
+  .catalogo-filtro:focus-visible{outline:none;
+    box-shadow:0 0 0 1px var(--gold-soft), 0 0 0 5px rgba(196,165,116,.18)}
+  .lente__fechar svg{width:1rem;height:1rem}
+
+  /* NO TELEFONE O CARD INTEIRO CABE NA TELA.
+     Antes a mídia era quadrada (375px) e empurrava preço e botão para fora da
+     dobra: quem abria via um card cortado e ia embora. Agora o palco toma uma
+     FRAÇÃO da altura, o corpo rola dentro de si, e a ação nunca sai da tela. */
+  .lente__palco{position:relative;background:#05060a;flex-shrink:0}
+  @media (max-width:759px){
+    /* O palco CRESCE para ocupar a sobra. Peça de texto curto deixava um
+       buraco entre a ficha e o preço — espaço vazio não é respiro, é
+       desleixo. Quem manda no tamanho da foto é o que sobrou da tela. */
+    .lente__palco{flex:1 1 auto;min-height:15rem}
+  }
+  @media (min-width:760px){.lente__palco{width:28rem;align-self:stretch}}
+  .lente__palco img,.lente__palco video{position:absolute;inset:0;
+    width:100%;height:100%;object-fit:contain;background:#000}
+
+  /* Setas grandes e translúcidas — e alcançáveis com o polegar no telefone. */
+  .lente__seta{position:absolute;top:50%;transform:translateY(-50%);z-index:3;
+    width:2.8rem;height:2.8rem;border-radius:50%;display:grid;place-items:center;
+    background:rgba(10,10,10,.5);border:1px solid rgba(244,239,230,.18);
+    backdrop-filter:blur(10px);color:var(--cream);cursor:pointer;
+    transition:background .3s var(--ease),border-color .3s var(--ease)}
+  .lente__seta:hover{background:rgba(10,10,10,.8);border-color:var(--gold-dim);color:var(--gold-soft)}
+  .lente__seta svg{width:1.1rem;height:1.1rem}
+  .lente__seta--ant{left:.7rem}
+  .lente__seta--prox{right:.7rem}
+
+  .lente__tiras{position:absolute;left:0;right:0;bottom:.7rem;z-index:3;
+    display:flex;justify-content:center;gap:.4rem;padding:0 .7rem;
+    transition:bottom .3s var(--ease)}
+  .lente__tira{width:2.6rem;height:2.6rem;border-radius:.35rem;overflow:hidden;
+    border:1px solid rgba(244,239,230,.2);opacity:.5;cursor:pointer;flex-shrink:0;
+    position:relative;background:#000;
+    transition:opacity .3s var(--ease),border-color .3s var(--ease)}
+  .lente__tira.is-ativa{opacity:1;border-color:var(--gold-soft)}
+  .lente__tira img,.lente__tira video{width:100%;height:100%;object-fit:cover}
+  .lente__tira--video::after{content:'';position:absolute;inset:0;
+    background:rgba(0,0,0,.35) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23d4bc94'%3E%3Cpath d='M8 5v14l11-7z'/%3E%3C/svg%3E") center/45% no-repeat}
+
+  .lente__corpo{display:flex;flex-direction:column;padding:1.25rem 1.25rem 0;
+    overflow-y:auto;flex:0 1 auto;max-height:58dvh;min-height:0;
+    /* rolagem por inércia e sem "puxar" a página atrás */
+    -webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+  @media (min-width:760px){.lente__corpo{padding:2.25rem 2.25rem 0;flex:1;max-height:none}}
+  .lente__codigo{font-size:.58rem;letter-spacing:.24em;text-transform:uppercase;
+    color:var(--cream-mute);margin-bottom:.5rem}
+  .lente__corpo h3{font-family:var(--font-display);font-size:1.45rem;font-weight:400;
+    line-height:1.2;margin-bottom:.75rem}
+  @media (min-width:760px){.lente__corpo h3{font-size:1.75rem;margin-bottom:.9rem}}
+  .lente__composicao{font-size:.8rem;line-height:1.65;color:var(--cream-dim);
+    padding-left:.8rem;border-left:1px solid var(--gold-dim);margin-bottom:.9rem}
+  .lente__descricao{font-size:.8rem;line-height:1.7;color:var(--cream-mute);margin-bottom:1rem}
+  .lente__ficha{display:grid;grid-template-columns:auto 1fr;gap:.5rem 1.1rem;
+    font-size:.76rem;margin-bottom:1.2rem}
+  .lente__ficha dt{color:var(--cream-mute);letter-spacing:.06em;white-space:nowrap}
+  .lente__ficha dd{color:var(--cream-dim)}
+
+  /* O RODAPÉ DA AÇÃO — preço e botão nunca saem da tela.
+     `sticky` em vez de fixo: no desktop ele simplesmente descansa no fim do
+     conteúdo; no telefone ele gruda na base enquanto a ficha rola por baixo.
+     O degradê acima avisa que ainda há texto — corte seco parece fim. */
+  .lente__acao{position:sticky;bottom:0;margin-top:1rem;
+    padding:1rem 0 1.25rem;background:var(--vidro-forte);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+  @media (min-width:760px){.lente__acao{margin-top:auto}}
+  .lente__acao::before{content:'';position:absolute;left:0;right:0;bottom:100%;
+    height:1.75rem;pointer-events:none;
+    background:linear-gradient(to top,var(--vidro-forte),transparent)}
+  .lente__preco{font-family:var(--font-display);font-size:1.35rem;color:var(--gold-soft);
+    margin-bottom:.75rem}
+  @media (min-width:760px){.lente__preco{font-size:1.5rem}}
 
 </style>
 </head>
@@ -461,7 +690,7 @@
         <section class="section" id="catalogo">
           <p class="section-label reveal">Acervo</p>
           <h2 class="section-title reveal reveal-delay-1">Peças <em>disponíveis</em></h2>
-          <p class="section-lead reveal reveal-delay-2">Cada peça é única. Toque na imagem para ver os outros ângulos.</p>
+          <p class="section-lead reveal reveal-delay-2">Cada peça é única. Toque para ver todos os ângulos, o giro em vídeo e a ficha completa.</p>
           <div class="catalogo-filtros reveal reveal-delay-2" id="catalogoFiltros"></div>
           <div class="catalogo" id="catalogoGrade"></div>
         </section>
@@ -738,6 +967,11 @@
 
     var ROTULO = {disponivel:'Disponível',reservada:'Reservada',vendida:'Vendida',sob_encomenda:'Sob encomenda'};
 
+    /* O filtro fala no plural ("Anéis"), a ficha da peça fala no singular
+       ("Anel"). São dois lugares, duas frases — e nenhum deles mostra o enum
+       cru. `anel` em minúsculo na ficha é dado de banco vazando na vitrine. */
+    var CATEGORIA = {anel:'Anel',colar:'Colar',brinco:'Brinco',pulseira:'Pulseira',relogio:'Relógio',outro:'Outra'};
+
     /* Todas as imagens da peça, na ordem em que fazem sentido olhar.
        A GERADA vem em SEGUNDO, não em último: é ela que o hover revela, e é
        ela que floreia. Hoje nenhuma peça tem uma — então a segunda posição
@@ -771,19 +1005,17 @@
       var art = document.createElement('article');
       art.className = 'peca reveal';
 
-      var midia = '<div class="peca__midia" role="button" tabindex="0" aria-label="Ver outros ângulos de ' + p.name + '">';
-      imgs.forEach(function(u,i){
+      /* O tile carrega só duas imagens: a que se vê e a que o hover revela.
+         As outras existem — mas o lugar de examinar todas é a LENTE. */
+      var midia = '<div class="peca__midia">';
+      imgs.slice(0,2).forEach(function(u,i){
         midia += '<img src="' + u + '" alt="' + p.name + '"'
-          + (i===0 ? ' class="is-ativa"' : (i===1 ? ' class="is-hover"' : ''))
+          + (i===0 ? ' class="is-ativa"' : ' class="is-hover"')
           + ' loading="lazy" decoding="async">';
       });
       midia += '<span class="peca__selo peca__selo--' + situacao + '">' + (ROTULO[situacao]||situacao) + '</span>';
       if(p.videoUrl) midia += '<span class="peca__video" title="Tem vídeo do giro">' + ICONE_PLAY + '</span>';
-      if(imgs.length > 1){
-        midia += '<span class="peca__pontos">';
-        imgs.forEach(function(_,i){ midia += '<span class="peca__ponto' + (i===0?' is-ativo':'') + '"></span>'; });
-        midia += '</span>';
-      }
+      midia += '<span class="peca__abrir">Ver peça</span>';
       midia += '</div>';
 
       var comp = composicao(p);
@@ -797,26 +1029,21 @@
         + ICONE_WA + 'Consultar peça</a>'
         + '</div>';
 
-      /* Tap avança a imagem — no telefone é o que substitui o hover.
-         Avançar em vez de alternar deixa TODOS os ângulos alcançáveis, e não
-         só o segundo. */
-      if(imgs.length > 1){
-        var alvo = art.querySelector('.peca__midia');
-        var todas = art.querySelectorAll('.peca__midia img');
-        var pontos = art.querySelectorAll('.peca__ponto');
-        var atual = 0;
-        var avancar = function(){
-          todas[atual].classList.remove('is-ativa');
-          if(pontos[atual]) pontos[atual].classList.remove('is-ativo');
-          atual = (atual + 1) % todas.length;
-          todas[atual].classList.add('is-ativa');
-          if(pontos[atual]) pontos[atual].classList.add('is-ativo');
-        };
-        alvo.addEventListener('click', avancar);
-        alvo.addEventListener('keydown', function(e){
-          if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); avancar(); }
-        });
-      }
+      /* O CARD INTEIRO abre a peça — não só a foto. Quem toca no nome ou no
+         preço está pedindo a mesma coisa que quem toca na imagem. */
+      art.setAttribute('role','button');
+      art.setAttribute('tabindex','0');
+      art.setAttribute('aria-label', 'Ver a peça ' + p.name);
+      art.style.cursor = 'pointer';
+      art.addEventListener('click', function(e){
+        // O CTA leva para o WhatsApp; abrir a lente por cima roubaria o clique.
+        if(e.target.closest('.peca__cta')) return;
+        abrirLente(p);
+      });
+      art.addEventListener('keydown', function(e){
+        if(e.target.closest('.peca__cta')) return;
+        if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); abrirLente(p); }
+      });
 
       return art;
     }
@@ -884,14 +1111,162 @@
         console.warn('[catálogo] não carregou:', e.message);
         secao.hidden = true;
       });
+
+    /* ==================================================================
+       A LENTE — o card inteiro da peça
+       ==================================================================
+       O tile atrai e ABRE. Examinar acontece aqui.
+
+       É aqui que a promessa do selo de vídeo se cumpre: eu tinha posto um
+       ícone de play em 8 cards e NENHUMA forma de assistir. Indicador sem
+       função é mentira — e essa cicatriz eu já carregava escrita.
+       ================================================================== */
+    var lente = null, lenteAtual = null, lenteIndice = 0, lenteMidias = [];
+
+    function midiasDaLente(p){
+      var lista = [], vistos = {};
+      var add = function(url, tipo, rotulo){
+        if(!url || vistos[url]) return;
+        vistos[url] = 1;
+        lista.push({url:url, tipo:tipo, rotulo:rotulo});
+      };
+      add(p.primaryImageUrl, 'imagem', 'Principal');
+      (p.images||[]).forEach(function(i){ add(i.url, 'imagem', i.angleName || 'Ângulo'); });
+      if(p.imagemGerada && p.imagemGerada.url) add(p.imagemGerada.url, 'imagem', 'Ambientada');
+      /* O vídeo entra por ÚLTIMO de propósito: quem abre quer ver a peça
+         primeiro; o giro é o aprofundamento, não a abertura. */
+      add(p.videoUrl, 'video', 'Giro 360º');
+      return lista;
+    }
+
+    function montarLente(){
+      if(lente) return lente;
+      lente = document.createElement('div');
+      lente.className = 'lente';
+      lente.setAttribute('role','dialog');
+      lente.setAttribute('aria-modal','true');
+      lente.innerHTML =
+        '<div class="lente__caixa">'
+        + '<button class="lente__fechar" type="button" aria-label="Fechar">'
+        + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/></svg></button>'
+        + '<div class="lente__palco" id="lentePalco"></div>'
+        + '<div class="lente__corpo" id="lenteCorpo"></div>'
+        + '</div>';
+      document.body.appendChild(lente);
+
+      lente.querySelector('.lente__fechar').addEventListener('click', fecharLente);
+      // Tocar no fundo fecha — no telefone é o gesto que todo mundo tenta.
+      lente.addEventListener('click', function(e){ if(e.target === lente) fecharLente(); });
+      document.addEventListener('keydown', function(e){
+        if(!lente || !lente.classList.contains('is-aberta')) return;
+        if(e.key === 'Escape') fecharLente();
+        if(e.key === 'ArrowRight') irLente(lenteIndice + 1);
+        if(e.key === 'ArrowLeft') irLente(lenteIndice - 1);
+      });
+      return lente;
+    }
+
+    function irLente(i){
+      if(!lenteMidias.length) return;
+      lenteIndice = ((i % lenteMidias.length) + lenteMidias.length) % lenteMidias.length;
+      var palco = document.getElementById('lentePalco');
+      var m = lenteMidias[lenteIndice];
+
+      // Som seguindo por baixo de uma foto é assombração.
+      var antigo = palco.querySelector('video');
+      if(antigo) antigo.pause();
+
+      /* O giro se comporta como o vídeo do herói: entra tocando, em loop,
+         mudo, SEM barra de tempo e SEM play/pause. Controle de reprodução aqui
+         seria pedir que a pessoa opere um vídeo de 30s que já se basta — e
+         quebraria a costura entre a foto e o giro. */
+      var midia = m.tipo === 'video'
+        ? '<video src="' + m.url + '" autoplay muted loop playsinline preload="auto"></video>'
+        : '<img src="' + m.url + '" alt="' + (lenteAtual ? lenteAtual.name : '') + '">';
+
+      var setas = lenteMidias.length > 1
+        ? '<button class="lente__seta lente__seta--ant" type="button" aria-label="Anterior">'
+          + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 5l-7 7 7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>'
+          + '<button class="lente__seta lente__seta--prox" type="button" aria-label="Próxima">'
+          + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg></button>'
+        : '';
+
+      var tiras = '';
+      if(lenteMidias.length > 1){
+        tiras = '<div class="lente__tiras">';
+        lenteMidias.forEach(function(x, j){
+          tiras += '<button class="lente__tira' + (j===lenteIndice?' is-ativa':'')
+            + (x.tipo==='video'?' lente__tira--video':'') + '" type="button" data-i="' + j + '"'
+            + ' aria-label="' + x.rotulo + '">'
+            + (x.tipo==='video'
+                ? '<video src="' + x.url + '" muted preload="metadata"></video>'
+                : '<img src="' + x.url + '" alt="">')
+            + '</button>';
+        });
+        tiras += '</div>';
+      }
+
+      palco.innerHTML = midia + setas + tiras;
+      palco.classList.toggle('is-video', m.tipo === 'video');
+      var vid = palco.querySelector('video');
+      if(vid){ vid.muted = true; var pr = vid.play(); if(pr && pr.catch) pr.catch(function(){}); }
+
+      var ant = palco.querySelector('.lente__seta--ant');
+      var prox = palco.querySelector('.lente__seta--prox');
+      if(ant) ant.addEventListener('click', function(){ irLente(lenteIndice - 1); });
+      if(prox) prox.addEventListener('click', function(){ irLente(lenteIndice + 1); });
+      palco.querySelectorAll('.lente__tira').forEach(function(t){
+        t.addEventListener('click', function(){ irLente(Number(t.getAttribute('data-i'))); });
+      });
+    }
+
+    function abrirLente(p){
+      montarLente();
+      lenteAtual = p;
+      lenteMidias = midiasDaLente(p);
+      lenteIndice = 0;
+
+      var situacao = p.situacao || 'disponivel';
+      var comp = composicao(p);
+      var medidas = p.medidas || {};
+      var linha = function(rot, val){ return val ? '<dt>' + rot + '</dt><dd>' + val + '</dd>' : ''; };
+      var ficha = linha('Situação', ROTULO[situacao] || situacao)
+        + linha('Categoria', CATEGORIA[p.category] || p.category)
+        + linha('Quilates', p.quilatesTotais ? String(p.quilatesTotais).replace('.',',') + 'ct' : '')
+        + linha('Aro', medidas.aro)
+        + linha('Peso', medidas.pesoGramas ? String(medidas.pesoGramas).replace('.',',') + 'g' : '')
+        + linha('Entrega', p.prazoEntregaDias ? p.prazoEntregaDias + ' dias' : '')
+        + linha('Certificação', p.certificacao ? [p.certificacao.laboratorio, p.certificacao.numero].filter(Boolean).join(' ') : '');
+
+      document.getElementById('lenteCorpo').innerHTML =
+        '<p class="lente__codigo">' + p.code + '</p>'
+        + '<h3>' + p.name + '</h3>'
+        + (comp ? '<p class="lente__composicao">' + comp + '</p>' : '')
+        + (p.description ? '<p class="lente__descricao">' + p.description + '</p>' : '')
+        + (ficha ? '<dl class="lente__ficha">' + ficha + '</dl>' : '')
+        + '<div class="lente__acao">'
+        + '<p class="lente__preco">' + preco(p) + '</p>'
+        + '<a class="peca__cta" href="' + linkWhatsapp(p) + '" target="_blank" rel="noopener">'
+        + ICONE_WA + 'Consultar esta peça</a>'
+        + '</div>';
+
+      irLente(0);
+      lente.classList.add('is-aberta');
+      /* Trava a rolagem do fundo: rolar a página por baixo de um card aberto
+         desorienta — no telefone é o defeito mais comum de modal. */
+      document.body.style.overflow = 'hidden';
+      lente.querySelector('.lente__fechar').focus();
+    }
+
+    function fecharLente(){
+      if(!lente) return;
+      var v = lente.querySelector('.lente__palco video');
+      if(v) v.pause();
+      lente.classList.remove('is-aberta');
+      document.body.style.overflow = '';
+    }
   })();
 </script>
 
 </body>
 </html>
-
-							<script>
-                            	
-							</script>
-                        </body>
-                        </html>
