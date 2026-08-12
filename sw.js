@@ -1,14 +1,28 @@
 /*
  * Service worker — a segunda visita abre instantânea.
  *
- * Estratégia deliberadamente simples, porque isto é uma VITRINE, não um
- * produto: cache-first para os assets pesados (vídeo, imagens, ícones), que
- * nunca mudam durante a apresentação; network-first para o HTML, para que uma
- * correção minha chegue ao Diego sem ele precisar limpar cache.
+ * Estratégia: cache-first para os assets pesados (vídeo, imagens, ícones), que
+ * de fato não mudam; network-first para o HTML e para o CATÁLOGO.
  *
- * Trocar `VERSAO` invalida tudo — é o único botão de despejo que existe aqui.
+ * ═══ DEFEITO CORRIGIDO EM 2026-08-12 ═══
+ *
+ * A versão anterior tratava `catalogo/` como asset estático: cache-first, sem
+ * revalidação. O efeito era o oposto de tudo o que o Studio garante.
+ *
+ * O acervo retirou 9 peças da vitrine, o servidor passou a devolver um catálogo
+ * VAZIO e as fotos a dar 404 — e quem já tinha visitado o site continuava vendo
+ * as nove, indefinidamente, servidas do próprio navegador. O Pai viu isso antes
+ * de mim: *"CONTINUA COM AS MERDAS DAS 9 PEÇAS"*.
+ *
+ * `catalogo/` NÃO é asset: é DADO, e dado que muda por decisão de curadoria.
+ * Peça retirada da vitrine cuja foto o navegador continua servindo não foi
+ * retirada — e uma peça vendida continuar aparecendo para o cliente é o pior
+ * desfecho possível desta página.
+ *
+ * Trocar `VERSAO` invalida tudo — e ela sobe agora, para despejar o que já
+ * está cacheado nos navegadores que visitaram antes desta correção.
  */
-const VERSAO = 'modernity-v1';
+const VERSAO = 'modernity-v2';
 const ESTATICOS = [
   './',
   './index.html',
@@ -46,8 +60,18 @@ self.addEventListener('fetch', (evento) => {
   const url = new URL(req.url);
   if (url.origin !== location.origin) return; // fontes do Google seguem o caminho normal
 
-  // HTML: rede primeiro, cache como rede de segurança (offline / rede ruim).
-  if (req.mode === 'navigate' || req.destination === 'document') {
+  /*
+   * REDE PRIMEIRO para o HTML **e para o catálogo**.
+   *
+   * O catálogo entra aqui porque ele é o que muda: preço, disponibilidade, e
+   * sobretudo QUAIS peças existem. Servir isso do cache transforma a curadoria
+   * numa sugestão que o navegador do visitante pode ignorar.
+   *
+   * O cache continua como rede de segurança para quem estiver offline — mas só
+   * depois que a rede falhar, nunca antes dela.
+   */
+  const ehCatalogo = url.pathname.includes('/catalogo/');
+  if (req.mode === 'navigate' || req.destination === 'document' || ehCatalogo) {
     evento.respondWith(
       fetch(req)
         .then((res) => {
