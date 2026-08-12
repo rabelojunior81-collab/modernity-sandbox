@@ -1,5 +1,22 @@
 # Catálogo — artefato DERIVADO
 
+> ## 📭 Hoje esta pasta está VAZIA de propósito
+>
+> `catalogo.json` tem **zero peças**, e isso **não é defeito**.
+>
+> As 9 peças que estavam no ar viraram
+> [arqueologia](../../modernity-group/docs/archaeology/acervo-jewelry-001-009/)
+> em 2026-08-12: o acervo passou a ser capturado em micro-estúdio próprio
+> (GemCam), e manter dois acervos vivos com padrões diferentes de captura seria
+> a segunda fonte de verdade outra vez.
+>
+> O lote novo — 20 peças, 80 ativos — está **inteiro por curar**, porque a
+> planilha veio com preços fora de escala e quem decide preço é o Pai.
+> Onde exatamente paramos: `modernity-group/docs/RETOMADA.md`.
+>
+> **A vitrine no ar mostra a verdade: nenhuma peça.** Mostrar peça que não está
+> mais no acervo seria mais bonito e seria mentira.
+
 **Não edite nada nesta pasta.**
 
 O conteúdo aqui é gerado pelo **Modernity Studio** e copiado para cá. O Studio é
@@ -28,22 +45,27 @@ fornecedor, nota fiscal, localização do cofre — para uma página pública.
 
 ## Como republicar
 
-No Studio: **aba Acervo → Exportar catálogo**. Escolha o destino `vitrine`,
-confira a prévia, exporte. Depois, no host:
+No Studio: **Console de Gestão → Publicação**. Escolha o destino `vitrine`,
+confira a prévia, exporte. A exportação **escreve direto nesta pasta** — o
+contêiner a enxerga montada — e **apaga as mídias órfãs**: peça retirada da
+vitrine tem que sair de verdade, não continuar acessível por URL direta.
+
+Escrever aqui **não publica**. Publicar é:
 
 ```bash
-cp modernity-group/data/exportacao/vitrine-<selo>/catalogo.json   modernity-sandbox/catalogo/
-cp modernity-group/data/exportacao/vitrine-<selo>/MANIFESTO.json  modernity-sandbox/catalogo/
-cp modernity-group/data/exportacao/vitrine-<selo>/media/*         modernity-sandbox/catalogo/media/
+git -C modernity-sandbox diff --stat && git -C modernity-sandbox add -A && git -C modernity-sandbox commit && git -C modernity-sandbox push
 ```
 
-Depois disso, **`git diff` antes de publicar**. É o passo que transforma
-republicação em decisão, e não em automatismo.
+O `git diff` antes do push é o passo que transforma republicação em decisão, e
+não em automatismo. Não há git dentro do contêiner de propósito: pôr coisa na
+internet não pode ser efeito colateral de um clique.
 
 ## Se algo aqui não existir
 
-A seção de catálogo **se esconde sozinha** e a vitrine continua de pé. Esqueleto
-vazio na cara de quem visita é pior do que ausência.
+A seção de catálogo **se esconde sozinha** — e, junto com ela, o item **"Peças"
+do menu**, nos dois menus. Esqueleto vazio na cara de quem visita é pior do que
+ausência; e item de menu que não leva a lugar nenhum é mentira na porta de
+entrada. Some junto, aparece junto.
 
 ---
 
