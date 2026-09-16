@@ -77,8 +77,9 @@ Nesta ordem, e nenhum passo é opcional:
    Qualquer coisa ali significa que alguém liberou retaguarda — fornecedor, nota
    fiscal, custo, localização em cofre — para uma página pública.
 2. **Nenhuma peça publicada pode carregar campo interno.** Os campos legítimos
-   são: `code · name · category · description · materiais · gemas · preco ·
-   situacao · images · primaryImageUrl · videoUrl`.
+   da projeção padrão são: `id · code · name · category · description ·
+   materiais · gemas · preco · situacao · images · primaryImageUrl · videoUrl ·
+   imagemGerada · quilatesTotais`.
 3. **Nenhum segredo no repositório.** Chave de API, token, credencial — nada.
    Esta página não tem backend e **não deve ter chave nenhuma**.
 4. **`git diff` antes do push.** É o passo que transforma republicação em
