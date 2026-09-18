@@ -1,10 +1,10 @@
 {
   "manifesto": {
-    "geradoEm": "2026-08-12T06:14:15.953Z",
+    "geradoEm": "2026-09-18T03:41:28.911Z",
     "destino": "vitrine",
     "origem": "Modernity Studio · proj-modernity-001",
-    "pecas": 0,
-    "midias": 0,
+    "pecas": 9,
+    "midias": 33,
     "fatoracao": {
       "code": true,
       "name": true,
@@ -28,11 +28,222 @@
     },
     "camposInternosLiberados": [],
     "publicacao": {
-      "totalNoAcervo": 1,
+      "totalNoAcervo": 9,
       "anunciadas": 0,
-      "exportadas": 0,
+      "exportadas": 9,
       "pedidosNaoAnunciados": []
-    }
+    },
+    "ambiente": "teste",
+    "indexable": false,
+    "commercialMode": "development-no-stock-no-price-invention"
   },
-  "pecas": []
+  "pecas": [
+    {
+      "id": "jewel-001",
+      "code": "JEWELRY-001",
+      "name": "Anel Gema Rosa & Turmalina Paraíba",
+      "category": "anel",
+      "description": "Anel em ouro amarelo com exuberante gema central rosa/lilás oval acompanhada por duas pedras em lapidação gota azul turquesa vibrante.",
+      "primaryImageUrl": "media/pieces_1.2.jpeg",
+      "images": [
+        {
+          "angleName": "Frontal Superior",
+          "url": "media/pieces_1.2.jpeg"
+        },
+        {
+          "angleName": "Perspectiva Lateral 45º",
+          "url": "media/pieces_1.3.jpeg"
+        },
+        {
+          "angleName": "Perspectiva Lateral Oposta",
+          "url": "media/pieces_1.4.jpeg"
+        }
+      ],
+      "videoUrl": "media/pieces_1.1.mp4",
+      "situacao": "disponivel"
+    },
+    {
+      "id": "jewel-002",
+      "code": "JEWELRY-002",
+      "name": "Anel Coração Pavê com Aro Cordão",
+      "category": "anel",
+      "description": "Anel delicado em ouro amarelo com topo em formato de coração inteiramente pavetado de diamantes e aro trabalhado em textura de corda.",
+      "primaryImageUrl": "media/pieces_2.2.jpeg",
+      "images": [
+        {
+          "angleName": "Frontal",
+          "url": "media/pieces_2.2.jpeg"
+        },
+        {
+          "angleName": "Angulo 30º",
+          "url": "media/pieces_2.3.jpeg"
+        },
+        {
+          "angleName": "Topo",
+          "url": "media/pieces_2.4.jpeg"
+        }
+      ],
+      "videoUrl": "media/pieces_2.1.mp4",
+      "situacao": "disponivel"
+    },
+    {
+      "id": "jewel-003",
+      "code": "JEWELRY-003",
+      "name": "Meia-Aliança Ouro Amarelo Diamantes",
+      "category": "anel",
+      "description": "Meia-aliança clássica e robusta em ouro amarelo com carreira de diamantes grandes cravados em garras individuais.",
+      "primaryImageUrl": "media/pieces_3.2.jpeg",
+      "images": [
+        {
+          "angleName": "Frontal",
+          "url": "media/pieces_3.2.jpeg"
+        },
+        {
+          "angleName": "Perspectiva 45º",
+          "url": "media/pieces_3.3.jpeg"
+        },
+        {
+          "angleName": "Lateral",
+          "url": "media/pieces_3.4.jpeg"
+        }
+      ],
+      "videoUrl": "media/pieces_3.1.mp4",
+      "situacao": "disponivel"
+    },
+    {
+      "id": "jewel-004",
+      "code": "JEWELRY-004",
+      "name": "Anel Ondas Tricolor com Diamantes",
+      "category": "anel",
+      "description": "Anel de design orgânico em ondas com fileiras intercaladas de ouro e faixa central cravada com diamantes.",
+      "primaryImageUrl": "media/pieces_4.2.jpeg",
+      "images": [
+        {
+          "angleName": "Frontal",
+          "url": "media/pieces_4.2.jpeg"
+        },
+        {
+          "angleName": "Perspectiva",
+          "url": "media/pieces_4.3.jpeg"
+        },
+        {
+          "angleName": "Topo",
+          "url": "media/pieces_4.4.jpeg"
+        }
+      ],
+      "videoUrl": "media/pieces_4.1.mp4",
+      "situacao": "disponivel"
+    },
+    {
+      "id": "jewel-005",
+      "code": "JEWELRY-005",
+      "name": "Aliança Larga Ouro Branco Total Pavê",
+      "category": "anel",
+      "description": "Aliança larga e imponente em ouro branco inteiramente recoberta por 3 faixas densas de brilhantes pavetados.",
+      "primaryImageUrl": "media/pieces_5.2.jpeg",
+      "images": [
+        {
+          "angleName": "Frontal",
+          "url": "media/pieces_5.2.jpeg"
+        },
+        {
+          "angleName": "Angulo Lateral",
+          "url": "media/pieces_5.3.jpeg"
+        },
+        {
+          "angleName": "Perfil",
+          "url": "media/pieces_5.4.jpeg"
+        }
+      ],
+      "videoUrl": "media/pieces_5.1.mp4",
+      "situacao": "disponivel"
+    },
+    {
+      "id": "jewel-006",
+      "code": "JEWELRY-006",
+      "name": "Anel Tiara Rubi Navete & Diamantes",
+      "category": "anel",
+      "description": "Anel estilo coroa/tiara com gemas navete na cor rubi magenta vibrante dispostas em leque e pontuadas por diamantes.",
+      "primaryImageUrl": "media/pieces_6.2.jpeg",
+      "images": [
+        {
+          "angleName": "Frontal",
+          "url": "media/pieces_6.2.jpeg"
+        },
+        {
+          "angleName": "Perspectiva",
+          "url": "media/pieces_6.3.jpeg"
+        },
+        {
+          "angleName": "Topo",
+          "url": "media/pieces_6.4.jpeg"
+        }
+      ],
+      "videoUrl": "media/pieces_6.1.mp4",
+      "situacao": "disponivel"
+    },
+    {
+      "id": "jewel-007",
+      "code": "JEWELRY-007",
+      "name": "Anel Chuveiro Hexagonal Ouro Branco",
+      "category": "anel",
+      "description": "Anel solitário em ouro branco com arranjo de diamantes formando uma roseta/hexagono de alto brilho.",
+      "primaryImageUrl": "media/pieces_7.2.jpeg",
+      "images": [
+        {
+          "angleName": "Frontal",
+          "url": "media/pieces_7.2.jpeg"
+        },
+        {
+          "angleName": "Perspectiva 45º",
+          "url": "media/pieces_7.3.jpeg"
+        },
+        {
+          "angleName": "Perspectiva Oposta",
+          "url": "media/pieces_7.4.jpeg"
+        }
+      ],
+      "videoUrl": "media/pieces_7.1.mp4",
+      "situacao": "disponivel"
+    },
+    {
+      "id": "jewel-008",
+      "code": "JEWELRY-008",
+      "name": "Anel Escultural Duplo Loop Cravejado",
+      "category": "anel",
+      "description": "Anel de alta joalheria com arquitetura vazada em duplo laço vertical cravejado de diamantes nas bordas.",
+      "primaryImageUrl": "media/pieces_8.2.jpg",
+      "images": [
+        {
+          "angleName": "Frontal Vertical",
+          "url": "media/pieces_8.2.jpg"
+        },
+        {
+          "angleName": "Perspectiva Tridimensional",
+          "url": "media/pieces_8.3.jpeg"
+        }
+      ],
+      "videoUrl": "media/pieces_8.1.mp4",
+      "situacao": "disponivel"
+    },
+    {
+      "id": "jewel-009",
+      "code": "JEWELRY-009",
+      "name": "Colar Corrente Veneziana com Pingente Coração Diamantes",
+      "category": "colar",
+      "description": "Colar fino em ouro branco com corrente veneziana e pendente em formato de coração volumoso pavetado de diamantes.",
+      "primaryImageUrl": "media/pieces_9.2.jpeg",
+      "images": [
+        {
+          "angleName": "Perfil / Caimento",
+          "url": "media/pieces_9.1.jpeg"
+        },
+        {
+          "angleName": "Frontal",
+          "url": "media/pieces_9.2.jpeg"
+        }
+      ],
+      "situacao": "disponivel"
+    }
+  ]
 }
