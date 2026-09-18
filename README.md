@@ -113,14 +113,12 @@ aberta em `file://` (onde `fetch` não funciona), a vitrine continua de pé.
 
 ---
 
-## Não indexado — de propósito
+## Indexação pública de integração
 
-`robots.txt` e `<meta name="robots" content="noindex, nofollow">`.
-
-O repositório é **público por exigência técnica** — GitHub Pages não publica de
-repositório privado em conta gratuita. Mas a marca do cliente não deve aparecer
-em busca antes da aprovação dele. O link funciona para quem o recebe; o Google
-não indexa.
+O catálogo atual está em `teste-publico`: `robots.txt`, canonical e sitemap
+liberam a descoberta pública, mas a página informa que valores e estoque
+comerciais ainda não foram definidos. Isso não equivale a uma release comercial.
+O Studio continua sendo a fonte única; o Vitrine só recebe o artefato derivado.
 
 ---
 

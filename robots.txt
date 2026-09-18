@@ -1,5 +1,6 @@
-# Vitrine TEMPORÁRIA — apresentação para o cliente, não conteúdo público.
-# O repositório precisa ser público para o GitHub Pages funcionar em conta
-# gratuita, mas a página não deve ser indexada antes da aprovação da marca.
+# Catálogo público de integração autorizado pelo proprietário.
+# O conteúdo permanece explicitamente sem preço/estoque comercial.
 User-agent: *
-Disallow: /
+Allow: /
+
+Sitemap: https://modernity.blog/sitemap.xml

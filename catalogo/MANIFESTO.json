@@ -1,5 +1,5 @@
 {
-  "geradoEm": "2026-09-18T03:41:28.911Z",
+  "geradoEm": "2026-09-18T05:53:56.469Z",
   "destino": "vitrine",
   "origem": "Modernity Studio · proj-modernity-001",
   "pecas": 9,
@@ -32,9 +32,9 @@
     "exportadas": 9,
     "pedidosNaoAnunciados": []
   },
-  "ambiente": "teste",
-  "indexable": false,
-  "commercialMode": "development-no-stock-no-price-invention",
+  "ambiente": "teste-publico",
+  "indexable": true,
+  "commercialMode": "development-public-no-stock-no-price-invention",
   "midiasCopiadas": 33,
   "midiasFaltando": []
 }

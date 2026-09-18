@@ -1,21 +1,14 @@
 # Catálogo — artefato DERIVADO
 
-> ## 📭 Hoje esta pasta está VAZIA de propósito
+> ## Catálogo público de integração
 >
-> `catalogo.json` tem **zero peças**, e isso **não é defeito**.
+> O pacote atual contém 9 peças e 33 mídias, exportadas do Studio em
+> `ambiente: teste-publico` por autorização explícita. Ele é indexável para
+> validar a superfície pública, mas **não é release comercial**: não contém
+> estoque nem preços inventados. A UI identifica essa condição.
 >
-> As 9 peças que estavam no ar viraram
-> [arqueologia](../../modernity-group/docs/archaeology/acervo-jewelry-001-009/)
-> em 2026-08-12: o acervo passou a ser capturado em micro-estúdio próprio
-> (GemCam), e manter dois acervos vivos com padrões diferentes de captura seria
-> a segunda fonte de verdade outra vez.
->
-> O lote novo — 20 peças, 80 ativos — está **inteiro por curar**, porque a
-> planilha veio com preços fora de escala e quem decide preço é o Pai.
-> Onde exatamente paramos: `modernity-group/docs/RETOMADA.md`.
->
-> **A vitrine no ar mostra a verdade: nenhuma peça.** Mostrar peça que não está
-> mais no acervo seria mais bonito e seria mentira.
+> Os 102 blobs históricos sem vínculo semântico continuam em quarentena e não
+> foram promovidos para este catálogo.
 
 **Não edite nada nesta pasta.**
 
