@@ -1,5 +1,10 @@
 # Modernity — Vitrine Temporária
 
+> **Errata 2026-09-29 — Tessy Fenix / Codex:** o título preserva a origem deste
+> repositório. O contrato publicado é `teste-publico`, indexável e sem release
+> comercial; veja `catalogo/README.md` e `catalogo/MANIFESTO.json`. O catálogo
+> continua derivado do Studio e não se edita aqui como fonte.
+
 Landing page de apresentação da **Modernity — Joalheria & Relojoaria**, publicada
 como GitHub Pages para demonstração ao cliente.
 

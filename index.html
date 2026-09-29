@@ -458,6 +458,9 @@
   .peca__preco{font-family:var(--font-display);font-size:1.15rem;color:var(--gold-soft);
     margin-top:auto;padding-top:.4rem;margin-bottom:.8rem}
   @media (min-width:700px){.peca__preco{margin-bottom:1.1rem}}
+  .peca__aviso-integracao,.lente__aviso-integracao{font-size:.75rem;line-height:1.5;
+    color:var(--gold-soft);font-weight:500;letter-spacing:.02em;margin-bottom:.8rem;
+    border-left:2px solid var(--gold-dim);padding-left:.6rem}
 
   .peca__cta{display:flex;align-items:center;justify-content:center;gap:.5rem;
     width:100%;padding:.8rem 1rem;border-radius:.5rem;
@@ -1043,6 +1046,7 @@
       }
     }
     var pecas = [];
+    var testePublico = false;
     var filtroAtual = 'todas';
 
     /* Composição em FRASE, o mesmo princípio do estúdio: quem lê a vitrine
@@ -1143,6 +1147,7 @@
         + '<h3>' + p.name + '</h3>'
         + (comp ? '<p class="peca__composicao">' + comp + '</p>' : '')
         + '<p class="peca__preco">' + preco(p) + '</p>'
+        + (testePublico ? '<p class="peca__aviso-integracao">Em teste público · disponibilidade comercial sob confirmação.</p>' : '')
         + '<a class="peca__cta" href="' + linkWhatsapp(p) + '" target="_blank" rel="noopener">'
         + ICONE_WA + 'Consultar peça</a>'
         + '</div>';
@@ -1213,6 +1218,7 @@
       .then(function(r){ if(!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
       .then(function(d){
         pecas = (d && d.pecas) || [];
+        testePublico = Boolean(d && d.manifesto && d.manifesto.ambiente === 'teste-publico');
         if(!pecas.length){ secao.hidden = true; sumirComOAtalho(); return; }
         // As URLs no artefato são relativas à pasta do pacote.
         pecas.forEach(function(p){
@@ -1363,6 +1369,7 @@
         + (comp ? '<p class="lente__composicao">' + comp + '</p>' : '')
         + (p.description ? '<p class="lente__descricao">' + p.description + '</p>' : '')
         + (ficha ? '<dl class="lente__ficha">' + ficha + '</dl>' : '')
+        + (testePublico ? '<p class="lente__aviso-integracao">Acervo em teste público. Confirme preço, estoque e disponibilidade no atendimento.</p>' : '')
         + '<div class="lente__acao">'
         + '<p class="lente__preco">' + preco(p) + '</p>'
         + '<a class="peca__cta" href="' + linkWhatsapp(p) + '" target="_blank" rel="noopener">'

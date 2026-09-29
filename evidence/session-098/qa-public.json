@@ -1,0 +1,39 @@
+{
+  "author": "Tessy Fenix / Codex",
+  "timestamp": "2026-09-29T03:03:47.187Z",
+  "method": "servidor local com catálogo versionado, Chromium",
+  "viewports": [
+    {
+      "width": 375,
+      "cards": 9,
+      "notes": 9,
+      "modalNote": true,
+      "metrics": {
+        "viewport": 375,
+        "documentWidth": 375,
+        "actionVisible": true
+      },
+      "requestFailures": [],
+      "screenshots": [
+        "catalogo-375.png",
+        "ficha-375.png"
+      ]
+    },
+    {
+      "width": 1440,
+      "cards": 9,
+      "notes": 9,
+      "modalNote": true,
+      "metrics": {
+        "viewport": 1440,
+        "documentWidth": 1440,
+        "actionVisible": true
+      },
+      "requestFailures": [],
+      "screenshots": [
+        "catalogo-1440.png",
+        "ficha-1440.png"
+      ]
+    }
+  ]
+}
